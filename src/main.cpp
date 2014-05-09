@@ -3,11 +3,15 @@
 
 //========================================================================
 int main( ){
-	ofSetupOpenGL(1024,768,OF_WINDOW);			// <-------- setup the GL context
-
+	ofSetLogLevel(OF_LOG_VERBOSE);
+#ifdef TARGET_OPENGLES
+	ofSetCurrentRenderer(ofPtr<ofBaseRenderer>(new ofGLProgrammableRenderer()));
+#endif
+	ofSetupOpenGL(320,240, OF_WINDOW);			// <-------- setup the GL context
+	
 	// this kicks off the running of my app
 	// can be OF_WINDOW or OF_FULLSCREEN
 	// pass in width and height too:
-	ofRunApp(new testApp());
+	ofRunApp( new testApp());
 
 }
