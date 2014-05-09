@@ -22,10 +22,10 @@ void testApp::setup(){
     
 	vidGrabber.setDeviceID(0);
 	vidGrabber.setDesiredFrameRate(60);
-	vidGrabber.initGrabber(fullScreenWidth,fullScreenHeight);
+	vidGrabber.initGrabber(camWidth,camHeight);
 	
-	videoInverted 	= new unsigned char[fullScreenWidth*fullScreenHeight*3];
-	videoTexture.allocate(fullScreenWidth,fullScreenHeight, GL_RGB);	
+	// videoInverted 	= new unsigned char[fullScreenWidth*fullScreenHeight*3];
+	// videoTexture.allocate(fullScreenWidth,fullScreenHeight, GL_RGB);	
 	ofSetVerticalSync(true);
 }
 
@@ -37,21 +37,21 @@ void testApp::update(){
 	
 	vidGrabber.update();
 	
-	if (vidGrabber.isFrameNew()){
-		int totalPixels = fullScreenWidth*fullScreenHeight*3;
-		unsigned char * pixels = vidGrabber.getPixels();
-		for (int i = 0; i < totalPixels; i++){
-			videoInverted[i] = 255 - pixels[i];
-		}
-		videoTexture.loadData(videoInverted, fullScreenWidth,fullScreenHeight, GL_RGB);
-	}
+	// if (vidGrabber.isFrameNew()){
+	// 	int totalPixels = fullScreenWidth*fullScreenHeight*3;
+	// 	unsigned char * pixels = vidGrabber.getPixels();
+	// 	for (int i = 0; i < totalPixels; i++){
+	// 		videoInverted[i] = 255 - pixels[i];
+	// 	}
+	// 	videoTexture.loadData(videoInverted, fullScreenWidth,fullScreenHeight, GL_RGB);
+	// }
 
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
 	ofSetHexColor(0xffffff);
-	vidGrabber.draw(0,0);
+	vidGrabber.draw(0,0, fullScreenWidth, fullScreenHeight);
 	// videoTexture.draw(0,0,camWidth,camHeight);
 }
 
