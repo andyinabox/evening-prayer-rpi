@@ -5,6 +5,8 @@ void testApp::setup(){
 	
 	camWidth 		= 320;	// try to grab at this size. 
 	camHeight 		= 240;
+	fullScreenWidth = 640;
+    fullScreenHeight = 480;
 	
     //we can now get back a list of devices. 
 	vector<ofVideoDevice> devices = vidGrabber.listDevices();
@@ -20,10 +22,10 @@ void testApp::setup(){
     
 	vidGrabber.setDeviceID(0);
 	vidGrabber.setDesiredFrameRate(60);
-	vidGrabber.initGrabber(camWidth,camHeight);
+	vidGrabber.initGrabber(fullScreenWidth,fullScreenHeight);
 	
-	videoInverted 	= new unsigned char[camWidth*camHeight*3];
-	videoTexture.allocate(camWidth,camHeight, GL_RGB);	
+	videoInverted 	= new unsigned char[fullScreenWidth*fullScreenHeight*3];
+	videoTexture.allocate(fullScreenWidth,fullScreenHeight, GL_RGB);	
 	ofSetVerticalSync(true);
 }
 
@@ -36,12 +38,12 @@ void testApp::update(){
 	vidGrabber.update();
 	
 	if (vidGrabber.isFrameNew()){
-		int totalPixels = camWidth*camHeight*3;
+		int totalPixels = fullScreenWidth*fullScreenHeight*3;
 		unsigned char * pixels = vidGrabber.getPixels();
 		for (int i = 0; i < totalPixels; i++){
 			videoInverted[i] = 255 - pixels[i];
 		}
-		videoTexture.loadData(videoInverted, camWidth,camHeight, GL_RGB);
+		videoTexture.loadData(videoInverted, fullScreenWidth,fullScreenHeight, GL_RGB);
 	}
 
 }
