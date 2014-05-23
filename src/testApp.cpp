@@ -2,6 +2,16 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
+
+	// #ifdef TARGET_OPENGLES
+		// shader.load("shadersES2/shader");
+	// #else
+		// if(ofIsGLProgrammableRenderer()){
+			shader.load("shadersGL3/shader");
+		// }//else{
+			// shader.load("shadersGL2/shader");
+		// }
+	// #endif
 	
 	camWidth 		= 320;	// try to grab at this size. 
 	camHeight 		= 240;
@@ -27,6 +37,9 @@ void testApp::setup(){
 	// videoInverted 	= new unsigned char[fullScreenWidth*fullScreenHeight*3];
 	// videoTexture.allocate(fullScreenWidth,fullScreenHeight, GL_RGB);	
 	ofSetVerticalSync(true);
+
+    plane.set(800, 600, 10, 10);
+    plane.mapTexCoords(0, 0, vidGrabber.getWidth(), vidGrabber.getHeight());
 }
 
 
@@ -45,14 +58,39 @@ void testApp::update(){
 	// 	}
 	// 	videoTexture.loadData(videoInverted, fullScreenWidth,fullScreenHeight, GL_RGB);
 	// }
+	// 
 
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-	ofSetHexColor(0xffffff);
-	vidGrabber.draw(0,0, fullScreenWidth, fullScreenHeight);
+	// ofSetHexColor(0xffffff);
+
+	vidGrabber.getTextureReference().bind();
+
+	shader.begin();
+	// vidGrabber.draw(0,0, fullScreenWidth, fullScreenHeight);
 	// videoTexture.draw(0,0,camWidth,camHeight);
+	// 
+	// 
+	// 
+	// 
+	
+
+    // get mouse position relative to center of screen
+    float mousePosition = ofMap(mouseX, 0, ofGetWidth(), 1.0, -1.0, true);
+    shader.setUniform1f("mouseX", mousePosition);
+
+    ofPushMatrix();
+    ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
+    
+    plane.draw();
+
+    ofPopMatrix();
+    
+    shader.end();
+
+    vidGrabber.getTextureReference().unbind();
 }
 
 

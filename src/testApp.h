@@ -27,4 +27,8 @@ class testApp : public ofBaseApp{
 		int 				camHeight;
 		int fullScreenWidth;
 		int fullScreenHeight;
+        ofShader shader;
+    	ofPlanePrimitive plane;
+
+
 };
