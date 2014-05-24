@@ -10,4 +10,4 @@ Evening Prayer
 
 ### 0.0.2
  * Updated shader to involve some color transformations
- * Broke out config into separate json files for development and production
+ * Broke out config into separate json files for development and productionr
