@@ -19,6 +19,9 @@ void testApp::setup(){
 	// load the json config
 	if(configLoaded) {
 
+		cout << "config file loaded:" << endl;
+		cout << config.getRawString() << endl;
+
 		// set up our sizes from the config
 		cameraWidth	= config["cameraWidth"].asInt();
 		cameraHeight = config["cameraHeight"].asInt();
