@@ -55,7 +55,7 @@ void testApp::setup(){
 		camera.initGrabber(cameraWidth, cameraHeight);
 
 		// create a plane the width & height of the screen
-	    plane.set(ofGetWidth(), ofGetHeight(), 30, 30);
+	    plane.set(640, 480, 30, 30);
 	    // map the plane's texture coordinates to the camera
 	    // width / height
 	    plane.mapTexCoords(0, 0, cameraWidth, cameraHeight);
