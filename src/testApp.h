@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxJSONElement.h"
 
 class testApp : public ofBaseApp{
 	
@@ -20,15 +21,21 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);		
 		
-		ofVideoGrabber 		vidGrabber;
-		unsigned char * 	videoInverted;
-		ofTexture			videoTexture;
-		int 				camWidth;
-		int 				camHeight;
-		int fullScreenWidth;
-		int fullScreenHeight;
-        ofShader shader;
-    	ofPlanePrimitive plane;
+		// config loading
+		ofxJSONElement config;
+		bool configLoaded;
 
+
+		// camera stuff
+		ofVideoGrabber camera;
+		int cameraWidth;
+		int cameraHeight;
+
+
+		// gl stuff
+	    ofPlanePrimitive plane;
+        ofShader shader;
+        int period;
+        bool showHud;
 
 };

@@ -3,115 +3,116 @@
 //--------------------------------------------------------------
 void testApp::setup(){
 
-	// #ifdef TARGET_OPENGLES
-		// shader.load("shadersES2/shader");
-	// #else
-		// if(ofIsGLProgrammableRenderer()){
-			shader.load("shadersGL3/shader");
-		// }//else{
-			// shader.load("shadersGL2/shader");
-		// }
-	// #endif
+	// setup to load the correct shaders
+	// based on GPU
+	#ifdef TARGET_OPENGLES
+		shader.load("shadersES2/shader");
+	#else
+		shader.load("shadersGL2/shader");
+	#endif
 	
-	camWidth 		= 320;	// try to grab at this size. 
-	camHeight 		= 240;
-	fullScreenWidth = 640;
-    fullScreenHeight = 480;
-	
-    //we can now get back a list of devices. 
-	vector<ofVideoDevice> devices = vidGrabber.listDevices();
-	
-    for(int i = 0; i < devices.size(); i++){
-		cout << devices[i].id << ": " << devices[i].deviceName; 
-        if( devices[i].bAvailable ){
-            cout << endl;
-        }else{
-            cout << " - unavailable " << endl; 
-        }
-	}
-    
-	vidGrabber.setDeviceID(0);
-	vidGrabber.setDesiredFrameRate(60);
-	vidGrabber.initGrabber(camWidth,camHeight);
-	
-	// videoInverted 	= new unsigned char[fullScreenWidth*fullScreenHeight*3];
-	// videoTexture.allocate(fullScreenWidth,fullScreenHeight, GL_RGB);	
-	ofSetVerticalSync(true);
+	// load the json config
+	configLoaded = config.open("config.json");
 
-    plane.set(800, 600, 10, 10);
-    plane.mapTexCoords(0, 0, vidGrabber.getWidth(), vidGrabber.getHeight());
+	if(configLoaded) {
+
+		// set up our sizes from the config
+		cameraWidth	= config["cameraWidth"].asInt();
+		cameraHeight = config["cameraHeight"].asInt();
+	
+		// this will be our initial cycle period
+		period = config["period"].asFloat();
+		showHud = config["showHud"].asBool();
+
+
+	    // get a list of devices 
+		vector<ofVideoDevice> devices = camera.listDevices();
+		
+		// check available devices and out and log their status
+	    for(int i = 0; i < devices.size(); i++){
+			cout << devices[i].id << ": " << devices[i].deviceName; 
+	        if( devices[i].bAvailable ){
+	            cout << endl;
+	        }else{
+	            cout << " - unavailable " << endl; 
+	        }
+		}
+
+		// can't remember what this does but it's in the example
+		ofSetVerticalSync(true);
+	    
+	    // setup the camera
+		camera.setDeviceID(0);
+		camera.setDesiredFrameRate(60);
+		camera.initGrabber(cameraWidth, cameraHeight);
+
+		// create a plane the width & height of the screen
+	    plane.set(ofGetWidth(), ofGetHeight(), 30, 30);
+	    // map the plane's texture coordinates to the camera
+	    // width / height
+	    plane.mapTexCoords(0, 0, cameraWidth, cameraHeight);
+
+	} else {
+		// throw an error if loading fails
+		throw std::runtime_error( "Failed to load config file" );
+	}
 }
 
 
 //--------------------------------------------------------------
 void testApp::update(){
-	
-	ofBackground(100,100,100);
-	
-	vidGrabber.update();
-	
-	// if (vidGrabber.isFrameNew()){
-	// 	int totalPixels = fullScreenWidth*fullScreenHeight*3;
-	// 	unsigned char * pixels = vidGrabber.getPixels();
-	// 	for (int i = 0; i < totalPixels; i++){
-	// 		videoInverted[i] = 255 - pixels[i];
-	// 	}
-	// 	videoTexture.loadData(videoInverted, fullScreenWidth,fullScreenHeight, GL_RGB);
-	// }
-	// 
-
+	camera.update();
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-	// ofSetHexColor(0xffffff);
 
-	vidGrabber.getTextureReference().bind();
+	// set the background color
+	ofBackground(0,0,0);
 
+	// find the center of the screen
+	// @todo might just want to move this to setup
+	// since screen size is not expected to change
+    float cx = ofGetWidth() / 2.0;
+    float cy = ofGetHeight() / 2.0;
+
+    // this is in seconds
+    float t = ofGetElapsedTimef();
+    // @todo move this to setup
+    // this is also in seconds
+
+    // start the shader
 	shader.begin();
-	// vidGrabber.draw(0,0, fullScreenWidth, fullScreenHeight);
-	// videoTexture.draw(0,0,camWidth,camHeight);
-	// 
-	// 
-	// 
-	// 
-	
+    	
+    	// set uniforms
+    	shader.setUniformTexture("camera", camera.getTextureReference(), 1);
+    	shader.setUniform1f("time", t);
+    	shader.setUniform1f("period", period);
 
-    // get mouse position relative to center of screen
-    float mousePosition = ofMap(mouseX, 0, ofGetWidth(), 1.0, -1.0, true);
-    shader.setUniform1f("mouseX", mousePosition);
-
-    ofPushMatrix();
-    ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
+    	// draw our image plane
+    	ofPushMatrix();	
+    		// place coordinate center in the cente of the screen
+    		ofTranslate(cx, cy);
+    		plane.draw();
+    	ofPopMatrix();
     
-    plane.draw();
-
-    ofPopMatrix();
-    
+    // end the shader
     shader.end();
 
-    vidGrabber.getTextureReference().unbind();
+    if(showHud) {
+    	ofDrawBitmapString(ofToString(t) + " / " + ofToString(ofGetFrameRate()), 10, 20);   
+	}
+
 }
 
 
 //--------------------------------------------------------------
 void testApp::keyPressed  (int key){ 
-	
-	// in fullscreen mode, on a pc at least, the 
-	// first time video settings the come up
-	// they come up *under* the fullscreen window
-	// use alt-tab to navigate to the settings
-	// window. we are working on a fix for this...
-	
-	// Video settings no longer works in 10.7
-	// You'll need to compile with the 10.6 SDK for this
-    // For Xcode 4.4 and greater, see this forum post on instructions on installing the SDK
-    // http://forum.openframeworks.cc/index.php?topic=10343        
-	if (key == 's' || key == 'S'){
-		vidGrabber.videoSettings();
+
+	// space bar to toggle HUD
+	if(key == 32) {
+		showHud = !showHud;
 	}
-	
-	
 }
 
 //--------------------------------------------------------------
