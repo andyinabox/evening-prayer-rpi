@@ -14,6 +14,8 @@ void testApp::setup(){
 		shader.load("shadersGL2/shader");
 	#endif
 
+	
+
 	configLoaded = config.open("config/"+configFile);
 	
 	// load the json config
@@ -91,7 +93,7 @@ void testApp::draw(){
 	shader.begin();
     	
     	// set uniforms
-    	shader.setUniformTexture("camera", camera.getTextureReference(), 1);
+    	shader.setUniformTexture("video", camera.getTextureReference(), 1);
     	shader.setUniform1f("time", t);
     	shader.setUniform1f("period", period);
 
