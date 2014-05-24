@@ -30,7 +30,8 @@ class testApp : public ofBaseApp{
 		ofVideoGrabber camera;
 		int cameraWidth;
 		int cameraHeight;
-
+		int screenWidth;
+		int screenHeight;
 
 		// gl stuff
 	    ofPlanePrimitive plane;

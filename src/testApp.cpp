@@ -27,6 +27,9 @@ void testApp::setup(){
 		// set up our sizes from the config
 		cameraWidth	= config["cameraWidth"].asInt();
 		cameraHeight = config["cameraHeight"].asInt();
+		screenWidth	= config["screenWidth"].asInt();
+		screenHeight = config["screenHeight"].asInt();
+	
 	
 		// this will be our initial cycle period
 		period = config["period"].asFloat();
@@ -52,13 +55,13 @@ void testApp::setup(){
 	    // setup the camera
 		camera.setDeviceID(0);
 		camera.setDesiredFrameRate(60);
-		camera.initGrabber(cameraWidth, cameraHeight);
+		camera.initGrabber(cameraWidth, screenHeight);
 
 		// create a plane the width & height of the screen
-	    plane.set(640, 480, 30, 30);
+	    plane.set(screenWidth, 480, 30, 30);
 	    // map the plane's texture coordinates to the camera
 	    // width / height
-	    plane.mapTexCoords(0, 0, cameraWidth, cameraHeight);
+	    plane.mapTexCoords(0, 0, screenWidth, screenHeight);
 
 	} else {
 		// throw an error if loading fails
@@ -78,30 +81,19 @@ void testApp::draw(){
 	// set the background color
 	ofBackground(0,0,0);
 
-	// find the center of the screen
-	// @todo might just want to move this to setup
-	// since screen size is not expected to change
-    float cx = ofGetWidth() / 2.0;
-    float cy = ofGetHeight() / 2.0;
-
     // this is in seconds
     float t = ofGetElapsedTimef();
-    // @todo move this to setup
-    // this is also in seconds
 
     // start the shader
 	shader.begin();
     	
     	// set uniforms
-    	// shader.setUniformTexture("video", camera.getTextureReference(), 1);
     	shader.setUniform1f("time", t);
     	shader.setUniform1f("period", period);
 
     	// draw our image plane
     	ofPushMatrix();	
-    		// place coordinate center in the cente of the screen
-    		// ofTranslate(cx, cy);
-    		camera.draw(0,0, ofGetWidth(), ofGetHeight());
+    		camera.draw(0,0, screenWidth, screenHeight);
     	ofPopMatrix();
     
     // end the shader
