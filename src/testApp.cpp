@@ -80,7 +80,7 @@ void testApp::draw(){
     float cy = ofGetHeight() / 2.0;
 
     // this is in seconds
-    float t = 0; // ofGetElapsedTimef();
+    float t = ofGetElapsedTimef();
     // @todo move this to setup
     // this is also in seconds
 
