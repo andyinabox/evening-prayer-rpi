@@ -1,0 +1,6 @@
+{
+	"cameraWidth" : 320
+	, "cameraHeight" : 240
+	, "period" : 10
+	, "showHud" : false
+}

@@ -2,18 +2,21 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
+	string configFile;
 
 	// setup to load the correct shaders
 	// based on GPU
 	#ifdef TARGET_OPENGLES
+		configFile = "production.json";
 		shader.load("shadersES2/shader");
 	#else
+		configFile = "development.json";
 		shader.load("shadersGL2/shader");
 	#endif
+
+	configLoaded = config.open("config/"+configFile);
 	
 	// load the json config
-	configLoaded = config.open("config.json");
-
 	if(configLoaded) {
 
 		// set up our sizes from the config
