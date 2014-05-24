@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxJSONElement.h"
+// #include "ofxJSONElement.h"
 
 class testApp : public ofBaseApp{
 	
@@ -22,8 +22,8 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);		
 		
 		// config loading
-		ofxJSONElement config;
-		bool configLoaded;
+		// ofxJSONElement config;
+		// bool configLoaded;
 
 
 		// camera stuff
