@@ -81,19 +81,30 @@ void testApp::draw(){
 	// set the background color
 	ofBackground(0,0,0);
 
+	// find the center of the screen
+	// @todo might just want to move this to setup
+	// since screen size is not expected to change
+    float cx = screenWidth / 2.0;
+    float cy = screenHeight / 2.0;
+
     // this is in seconds
     float t = ofGetElapsedTimef();
+    // @todo move this to setup
+    // this is also in seconds
 
     // start the shader
 	shader.begin();
     	
     	// set uniforms
+    	shader.setUniformTexture("tex0", camera.getTextureReference(), 1);
     	shader.setUniform1f("time", t);
     	shader.setUniform1f("period", period);
 
     	// draw our image plane
     	ofPushMatrix();	
-    		camera.draw(0,0, screenWidth, screenHeight);
+    		// place coordinate center in the cente of the screen
+    		ofTranslate(cx, cy);
+    		plane.draw();
     	ofPopMatrix();
     
     // end the shader
