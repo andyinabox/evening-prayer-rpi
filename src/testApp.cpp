@@ -93,15 +93,15 @@ void testApp::draw(){
 	shader.begin();
     	
     	// set uniforms
-    	shader.setUniformTexture("video", camera.getTextureReference(), 1);
+    	// shader.setUniformTexture("video", camera.getTextureReference(), 1);
     	shader.setUniform1f("time", t);
     	shader.setUniform1f("period", period);
 
     	// draw our image plane
     	ofPushMatrix();	
     		// place coordinate center in the cente of the screen
-    		ofTranslate(cx, cy);
-    		plane.draw();
+    		// ofTranslate(cx, cy);
+    		camera.draw(0,0, ofGetWidth(), ofGetHeight());
     	ofPopMatrix();
     
     // end the shader

@@ -1,6 +1,6 @@
 #version 120
 
-uniform sampler2DRect video;
+uniform sampler2DRect tex0;
 
 varying vec2 texCoordVarying;
 
@@ -9,7 +9,7 @@ uniform float time;
 
 void main()
 {
-    vec4 color = texture2DRect(video, texCoordVarying);
+    vec4 color = texture2DRect(tex0, texCoordVarying);
 
     if((color.r + color.g + color.b)/3 > 0.1) {
  	   color.a = (cos(time/period) + 1) / 2;

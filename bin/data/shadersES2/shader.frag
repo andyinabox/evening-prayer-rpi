@@ -1,6 +1,6 @@
 precision highp float;
 
-uniform sampler2D video;
+uniform sampler2D tex0;
 
 varying vec2 texCoordVarying;
 
@@ -9,7 +9,7 @@ uniform float time;
 
 void main()
 {
-    vec4 color = texture2D(video, texCoordVarying);
+    vec4 color = texture2D(tex0, texCoordVarying);
 
     if((color.r + color.g + color.b)/3.0 > 0.1) {
  	   color.a = (cos(time/period) + 1.0) / 2.0;
