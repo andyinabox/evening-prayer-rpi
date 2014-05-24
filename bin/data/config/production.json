@@ -1,8 +1,6 @@
 {
 	"cameraWidth" : 320
 	, "cameraHeight" : 240
-	, "screenWidth" : 720
-	, "screenHeight" : 480
 	, "period" : 10
 	, "showHud" : false
 }

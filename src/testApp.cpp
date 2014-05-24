@@ -27,8 +27,6 @@ void testApp::setup(){
 		// set up our sizes from the config
 		cameraWidth	= config["cameraWidth"].asInt();
 		cameraHeight = config["cameraHeight"].asInt();
-		screenWidth	= config["screenWidth"].asInt();
-		screenHeight = config["screenHeight"].asInt();
 	
 	
 		// this will be our initial cycle period
@@ -55,7 +53,7 @@ void testApp::setup(){
 	    // setup the camera
 		camera.setDeviceID(0);
 		camera.setDesiredFrameRate(60);
-		camera.initGrabber(cameraWidth, screenHeight);
+		camera.initGrabber(cameraWidth, cameraHeight);
 
 	} else {
 		// throw an error if loading fails
@@ -90,7 +88,7 @@ void testApp::draw(){
 
     	// draw our image plane
     	ofPushMatrix();	
-    		camera.draw(0, 0, screenWidth, screenHeight);
+    		camera.draw(0, 0, ofGetWidth(), ofGetHeight());
     	ofPopMatrix();
     
     // end the shader
