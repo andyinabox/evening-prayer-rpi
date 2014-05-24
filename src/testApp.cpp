@@ -2,30 +2,30 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
-	// string configFile;
+	string configFile;
 
 	// setup to load the correct shaders
 	// based on GPU
 	#ifdef TARGET_OPENGLES
-		// configFile = "production.json";
+		configFile = "production.json";
 		shader.load("shadersES2/shader");
 	#else
-		// configFile = "development.json";
+		configFile = "development.json";
 		shader.load("shadersGL2/shader");
 	#endif
 
-	// configLoaded = config.open("config/"+configFile);
+	configLoaded = config.open("config/"+configFile);
 	
 	// load the json config
-	// if(configLoaded) {
+	if(configLoaded) {
 
 		// set up our sizes from the config
-		cameraWidth	= 320; //config["cameraWidth"].asInt();
-		cameraHeight = 240; //config["cameraHeight"].asInt();
+		cameraWidth	= config["cameraWidth"].asInt();
+		cameraHeight = config["cameraHeight"].asInt();
 	
 		// this will be our initial cycle period
-		period = 10; //config["period"].asFloat();
-		showHud = true; //config["showHud"].asBool();
+		period = config["period"].asFloat();
+		showHud = config["showHud"].asBool();
 
 
 	    // get a list of devices 
@@ -55,10 +55,10 @@ void testApp::setup(){
 	    // width / height
 	    plane.mapTexCoords(0, 0, cameraWidth, cameraHeight);
 
-	// } else {
+	} else {
 		// throw an error if loading fails
-		// throw std::runtime_error( "Failed to load config file" );
-	// }
+		throw std::runtime_error( "Failed to load config file" );
+	}
 }
 
 
@@ -80,7 +80,7 @@ void testApp::draw(){
     float cy = ofGetHeight() / 2.0;
 
     // this is in seconds
-    float t = ofGetElapsedTimef();
+    float t = 0; // ofGetElapsedTimef();
     // @todo move this to setup
     // this is also in seconds
 
