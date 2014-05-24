@@ -57,12 +57,6 @@ void testApp::setup(){
 		camera.setDesiredFrameRate(60);
 		camera.initGrabber(cameraWidth, screenHeight);
 
-		// create a plane the width & height of the screen
-	    plane.set(screenWidth, 480, 30, 30);
-	    // map the plane's texture coordinates to the camera
-	    // width / height
-	    plane.mapTexCoords(0, 0, screenWidth, screenHeight);
-
 	} else {
 		// throw an error if loading fails
 		throw std::runtime_error( "Failed to load config file" );
@@ -81,11 +75,6 @@ void testApp::draw(){
 	// set the background color
 	ofBackground(0,0,0);
 
-	// find the center of the screen
-	// @todo might just want to move this to setup
-	// since screen size is not expected to change
-    float cx = screenWidth / 2.0;
-    float cy = screenHeight / 2.0;
 
     // this is in seconds
     float t = ofGetElapsedTimef();
@@ -96,15 +85,12 @@ void testApp::draw(){
 	shader.begin();
     	
     	// set uniforms
-    	shader.setUniformTexture("tex0", camera.getTextureReference(), 1);
     	shader.setUniform1f("time", t);
     	shader.setUniform1f("period", period);
 
     	// draw our image plane
     	ofPushMatrix();	
-    		// place coordinate center in the cente of the screen
-    		ofTranslate(cx, cy);
-    		plane.draw();
+    		camera.draw(0, 0, screenWidth, screenHeight);
     	ofPopMatrix();
     
     // end the shader
