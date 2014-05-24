@@ -1,6 +1,7 @@
 precision highp float;
 
 attribute vec4 position;
+attribute vec2 texcoord;
 uniform mat4 modelViewProjectionMatrix;
 
 
@@ -13,5 +14,5 @@ void main()
 {
 
     gl_Position = modelViewProjectionMatrix * position;
-    texCoordVarying = gl_MultiTexCoord0.xy;
+    texCoordVarying = texcoord;
 }
