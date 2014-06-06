@@ -3,6 +3,10 @@
 #include "ofMain.h"
 #include "ofxJSONElement.h"
 
+#ifdef TARGET_RASPBERRY_PI
+	#include "wiringPi.h"
+#endif
+
 class testApp : public ofBaseApp{
 	
 	public:
@@ -25,6 +29,9 @@ class testApp : public ofBaseApp{
 		ofxJSONElement config;
 		bool configLoaded;
 
+		// sensor
+		int inputPin;
+		int proximityActive;
 
 		// camera stuff
 		ofVideoGrabber camera;

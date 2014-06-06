@@ -3,4 +3,5 @@
 	, "cameraHeight" : 240
 	, "period" : 10
 	, "showHud" : false
+	, "inputPin" : 0
 }

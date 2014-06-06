@@ -6,6 +6,7 @@ varying vec2 texCoordVarying;
 
 uniform float period;
 uniform float time;
+uniform int active;
 
 void main()
 {
@@ -16,6 +17,10 @@ void main()
     }
     color.r = color.r * ((sin(time) + 1) / 2);
     color.b = color.b * ((cos(time) + 1) / 2);
+
+    if(active < 1) {
+    	color.a = 0;
+    }
 
     gl_FragColor = color;
 }

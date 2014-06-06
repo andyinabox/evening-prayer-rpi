@@ -55,6 +55,18 @@ void testApp::setup(){
 		camera.setDesiredFrameRate(60);
 		camera.initGrabber(cameraWidth, cameraHeight);
 
+
+		// sensor setup
+		#ifdef TARGET_RASPBERRY_PI
+			wiringPiSetup();
+			inputPin = config["inputPin"].asInt();
+			proximityActive = (digitalRead(inputPin) == LOW);
+		#else
+			inputPin = config["inputPin"].asInt();
+			proximityActive = true;			
+		#endif
+
+
 	} else {
 		// throw an error if loading fails
 		throw std::runtime_error( "Failed to load config file" );
@@ -64,6 +76,8 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::update(){
+	proximityActive = (digitalRead(inputPin) === LOW);
+	cout << "proximit active: " << proximityActive << endl;
 	camera.update();
 }
 
@@ -86,6 +100,12 @@ void testApp::draw(){
     	shader.setUniform1f("time", t);
     	shader.setUniform1f("period", period);
 
+    	if(proximityActive) {
+    		shader.setUniform1i("active", 1);
+    	} else {
+    		shader.setUniform1i("active", 0);
+    	}
+
     	// draw our image plane
     	ofPushMatrix();	
     		camera.draw(0, 0, ofGetWidth(), ofGetHeight());
@@ -101,12 +121,17 @@ void testApp::draw(){
 }
 
 
+
 //--------------------------------------------------------------
 void testApp::keyPressed  (int key){ 
 
 	// space bar to toggle HUD
 	if(key == 32) {
 		showHud = !showHud;
+	}
+	// "a" key to toggle active state for dev mode
+	if(key == 97) {
+		proximityActive = !proximityActive;
 	}
 }
 
