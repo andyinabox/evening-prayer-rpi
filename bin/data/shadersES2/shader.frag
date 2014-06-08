@@ -19,7 +19,7 @@ void main()
     color.b = color.b * ((cos(time) + 1.0) / 2.0);
 
     if(active < 1) {
-    	color.a = 0;
+    	color.a = 0.0;
     }
 
     gl_FragColor = color;
