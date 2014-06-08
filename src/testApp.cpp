@@ -62,7 +62,7 @@ void testApp::setup(){
 			wiringPiSetup();
 			inputPin = config["inputPin"].asInt();
 			cout << "set proximityActive" << endl;
-			proximityActive = digitalRead(inputPin);
+			proximityActive = digitalRead(inputPin) ? 0 : 1;
 		#else
 			inputPin = config["inputPin"].asInt();
 			proximityActive = 1;			
@@ -79,7 +79,12 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::update(){
 	#ifdef TARGET_RASPBERRY_PI
-		int newProximityState = digitalRead(inputPin);
+		// we will get a HIGH (1) if the proximity sensor is NOT triggered,
+		// and a LOW (0) if it is. To make this more semantically meaningful
+		// these values are inverted (so 1 is on, 0 is off)
+		int newProximityState = digitalRead(inputPin) ? 0 : 1;
+
+		// update the value if different
 		if(newProximityState != proximityActive) {
 			cout << "update proximityActive: " << newProximityState << endl;
 			proximityActive = newProximityState;
