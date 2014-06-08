@@ -58,8 +58,10 @@ void testApp::setup(){
 
 		// sensor setup
 		#ifdef TARGET_RASPBERRY_PI
+			cout << "setup wiring pi" << endl;
 			wiringPiSetup();
 			inputPin = config["inputPin"].asInt();
+			cout << "set proximityActive" << endl;
 			proximityActive = digitalRead(inputPin);
 		#else
 			inputPin = config["inputPin"].asInt();
@@ -77,9 +79,10 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::update(){
 	#ifdef TARGET_RASPBERRY_PI
+		cout << "read proximityActive" >> endl;
 		int newProximityState = digitalRead(inputPin);
 		if(newProximityState != proximityActive) {
-			cout << "update proximity state: " << newProximityState << endl;
+			cout << "update proximityActive: " << newProximityState << endl;
 			proximityActive = newProximityState;
 		}
 	#endif
