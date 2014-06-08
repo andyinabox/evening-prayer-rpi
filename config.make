@@ -82,7 +82,7 @@ WIRINGPI_DIR = $(PROJECT_ROOT)/addons/ofxWiringPi/libs/wiringPi
 WIRING_PI_LIB_DIR = $(WIRINGPI_DIR)/libs
 WIRING_PI_LIB = $(WIRING_PI_LIB_DIR)/libwiringPi.a
 
-PROJECT_LDFLAGS=-Wl, -L$(WIRING_PI_LIB_DIR) $(WIRING_PI_LIB)
+PROJECT_LDFLAGS=-Wl,-rpath=./libs -L$(WIRING_PI_LIB_DIR) $(WIRING_PI_LIB)
 
 
 ################################################################################
