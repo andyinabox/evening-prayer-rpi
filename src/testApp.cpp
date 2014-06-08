@@ -134,7 +134,7 @@ void testApp::draw(){
  */
 int testApp::getProximityValue (int pin) {
 	#ifdef TARGET_RASPBERRY_PI
-		return !!digitalRead(pin) ? 0 : 1; 
+		return digitalRead(pin); 
 	#else
 		return proximityActive;
 	#endif
