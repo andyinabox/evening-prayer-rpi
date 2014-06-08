@@ -77,7 +77,7 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::update(){
 	#ifdef TARGET_RASPBERRY_PI
-		proximityActive = (digitalRead(inputPin) === LOW);
+		proximityActive = (digitalRead(inputPin) == LOW);
 	#endif
 	camera.update();
 }
