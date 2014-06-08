@@ -78,6 +78,12 @@
 # incorporated directly into the final executable application binary.
 # TODO: should this be a default setting?
 # PROJECT_LDFLAGS=-Wl,-rpath=./libs
+WIRINGPI_DIR = $(PROJECT_ROOT)/addons/ofxWiringPi/libs/wiringPi
+WIRING_PI_LIB_DIR = $(WIRINGPI_DIR)/libs
+WIRING_PI_LIB = $(WIRING_PI_LIB_DIR)/libwiringPi.a
+
+PROJECT_LDFLAGS=-Wl,-rpath=./libs -L$(WIRING_PI_LIB_DIR) $(WIRING_PI_LIB)
+
 
 ################################################################################
 # PROJECT DEFINES
