@@ -62,7 +62,7 @@ void testApp::setup(){
 			wiringPiSetup();
 			inputPin = config["inputPin"].asInt();
 			cout << "set proximityActive" << endl;
-			proximityActive = getProximityValue(inputPin);
+			proximityActive = 0;
 		#else
 			inputPin = config["inputPin"].asInt();
 			proximityActive = 1;			
@@ -134,7 +134,7 @@ void testApp::draw(){
  */
 int testApp::getProximityValue (int pin) {
 	#ifdef TARGET_RASPBERRY_PI
-		return digitalRead(pin); 
+		return !!digitalRead(pin) ? 0 : 1; 
 	#else
 		return proximityActive;
 	#endif
