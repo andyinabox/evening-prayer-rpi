@@ -14,7 +14,9 @@ class testApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
-		
+
+		int getProximityValue(int pin);
+
 		void keyPressed(int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
