@@ -79,7 +79,6 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::update(){
 	#ifdef TARGET_RASPBERRY_PI
-		cout << "read proximityActive" << endl;
 		int newProximityState = digitalRead(inputPin);
 		if(newProximityState != proximityActive) {
 			cout << "update proximityActive: " << newProximityState << endl;
