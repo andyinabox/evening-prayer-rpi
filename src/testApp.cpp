@@ -60,7 +60,7 @@ void testApp::setup(){
 		#ifdef TARGET_RASPBERRY_PI
 			wiringPiSetup();
 			inputPin = config["inputPin"].asInt();
-			proximityActive = (digitalRead(inputPin) == LOW);
+			proximityActive = !!digitalRead(inputPin);
 		#else
 			inputPin = config["inputPin"].asInt();
 			proximityActive = true;			
@@ -77,7 +77,7 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::update(){
 	#ifdef TARGET_RASPBERRY_PI
-		proximityActive = (digitalRead(inputPin) == LOW);
+		proximityActive = !!digitalRead(inputPin);
 	#endif
 	camera.update();
 }
