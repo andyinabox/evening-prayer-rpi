@@ -60,10 +60,10 @@ void testApp::setup(){
 		#ifdef TARGET_RASPBERRY_PI
 			wiringPiSetup();
 			inputPin = config["inputPin"].asInt();
-			proximityActive = !!digitalRead(inputPin);
+			proximityActive = digitalRead(inputPin);
 		#else
 			inputPin = config["inputPin"].asInt();
-			proximityActive = true;			
+			proximityActive = 1;			
 		#endif
 
 
@@ -77,7 +77,7 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::update(){
 	#ifdef TARGET_RASPBERRY_PI
-		int newProximityState = !!digitalRead(inputPin);
+		int newProximityState = digitalRead(inputPin);
 		if(newProximityState != proximityActive) {
 			cout << "update proximity state: " << newProximityState << endl;
 			proximityActive = newProximityState;
@@ -104,12 +104,7 @@ void testApp::draw(){
     	// set uniforms
     	shader.setUniform1f("time", t);
     	shader.setUniform1f("period", period);
-
-    	if(proximityActive) {
-    		shader.setUniform1i("active", 1);
-    	} else {
-    		shader.setUniform1i("active", 0);
-    	}
+    	shader.setUniform1i("active", proximityActive);
 
     	// draw our image plane
     	ofPushMatrix();	
@@ -136,7 +131,7 @@ void testApp::keyPressed  (int key){
 	}
 	// "a" key to toggle active state for dev mode
 	if(key == 97) {
-		proximityActive = !proximityActive;
+		proximityActive = proximityActive ? 0 : 1;
 	}
 }
 
