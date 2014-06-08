@@ -77,7 +77,11 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::update(){
 	#ifdef TARGET_RASPBERRY_PI
-		proximityActive = !!digitalRead(inputPin);
+		int newProximityState = !!digitalRead(inputPin);
+		if(newProximityState != proximityActive) {
+			cout << "update proximity state: " << newProximityState << endl;
+			proximityActive = newProximityState;
+		}
 	#endif
 	camera.update();
 }
