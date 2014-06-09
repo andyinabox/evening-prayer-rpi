@@ -1,6 +1,14 @@
 Evening Prayer
 ==============
 
+## Todo
+ - [] Integrate obviousjim/ofxTimeline
+ - [] Build out shader progression
+   - [] Dawn/Dusk light progression
+   - [] Constellation interpretation
+   - [] Fade in/out based on sensor state
+ - [] Saving images?
+
 ## Release Notes
 
 
@@ -18,3 +26,8 @@ Evening Prayer
  * Working with basic components (MacCam) on RPi
 
 ## Planned Releases
+
+### 0.1.0
+ * Sensor operational and correctly triggering show/hide
+ * Timeline incorporated
+ * Basic experience is in place
