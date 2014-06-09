@@ -2,12 +2,12 @@ Evening Prayer
 ==============
 
 ## Todo
- - [] Integrate obviousjim/ofxTimeline
- - [] Build out shader progression
-   - [] Dawn/Dusk light progression
-   - [] Constellation interpretation
-   - [] Fade in/out based on sensor state
- - [] Saving images?
+ - [ ] Integrate obviousjim/ofxTimeline
+ - [ ] Build out shader progression
+   - [ ] Dawn/Dusk light progression
+   - [ ] Constellation interpretation
+   - [ ] Fade in/out based on sensor state
+ - [ ] Saving images?
 
 ## Release Notes
 
